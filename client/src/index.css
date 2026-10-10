@@ -1,0 +1,354 @@
+/* ---------- Design tokens ---------- */
+:root {
+  --color-bg: #faf6ec;
+  --color-surface: #ffffff;
+  --color-primary: #2f4d3a;
+  --color-primary-dark: #203528;
+  --color-accent: #c98a3e;
+  --color-text: #2b2b26;
+  --color-muted: #6b6b60;
+  --color-border: #e3dcc8;
+  --radius: 10px;
+  --max-width: 1080px;
+  --font-serif: 'Georgia', 'Iowan Old Style', serif;
+  --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+h1, h2 {
+  font-family: var(--font-serif);
+  color: var(--color-primary-dark);
+}
+
+a {
+  color: var(--color-primary);
+}
+
+.site-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-content {
+  flex: 1;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.navbar-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--color-primary-dark);
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 500;
+  padding: 0.3rem 0.1rem;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-accent);
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.menu-toggle span {
+  width: 22px;
+  height: 2px;
+  background: var(--color-primary-dark);
+  display: block;
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary,
+.btn-secondary {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* ---------- Home ---------- */
+.hero {
+  text-align: center;
+  max-width: 640px;
+  margin: 2rem auto;
+}
+
+.hero-logo {
+  margin-bottom: 1rem;
+}
+
+.hero h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.2rem;
+}
+
+.tagline {
+  color: var(--color-accent);
+  font-weight: 600;
+  margin-top: 0;
+}
+
+.mission {
+  color: var(--color-muted);
+  margin: 1.5rem 0 2rem;
+}
+
+/* ---------- About ---------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.profile-photo {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+}
+
+.about-grid h1 {
+  margin-bottom: 0.2rem;
+}
+
+.role {
+  color: var(--color-accent);
+  font-weight: 600;
+  margin-top: 0;
+}
+
+/* ---------- Projects & Services ---------- */
+.project-grid,
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.project-card,
+.service-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.project-icon {
+  margin-bottom: 0.5rem;
+}
+
+.project-role,
+.project-outcome {
+  font-size: 0.95rem;
+}
+
+/* ---------- Education ---------- */
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.timeline li {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 1rem;
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1rem;
+}
+
+.timeline-year {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.timeline h2 {
+  margin: 0 0 0.2rem;
+  font-size: 1.15rem;
+}
+
+.institution {
+  color: var(--color-muted);
+  margin: 0 0 0.4rem;
+}
+
+/* ---------- Contact ---------- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 2.5rem;
+  margin-top: 1.5rem;
+}
+
+.contact-info p {
+  margin: 0.3rem 0;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+.contact-form label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.contact-form button {
+  margin-top: 1rem;
+  align-self: flex-start;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  text-align: center;
+  padding: 1.2rem;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 720px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem 0;
+    gap: 1rem;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .navbar-inner {
+    flex-wrap: wrap;
+  }
+
+  .about-grid,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline li {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-error {
+  color: #a12626;
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
