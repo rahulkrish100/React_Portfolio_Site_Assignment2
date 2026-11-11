@@ -1,56 +1,52 @@
+import { Link } from 'react-router-dom'
 import ProjectIcon from '../components/ProjectIcon.jsx'
+import { Alert, EmptyState, Loading } from '../components/Status.jsx'
+import { useAuth } from '../context/AuthContext.jsx'
+import { formatDate } from '../lib/validators.js'
+import useApiList from '../lib/useApiList.js'
 
-// Projects view: at least three projects, each with an image, a short
-// description, the author's role, and the resulting outcome.
-const PROJECTS = [
-  {
-    icon: 'orbit',
-    title: 'TaskOrbit: Team Planner',
-    description:
-      'An interactive web app that visualizes project tasks and dependencies as connected nodes, letting teams see how work flows and where bottlenecks form.',
-    role: 'Sole developer — designed the data model and the React front end.',
-    outcome:
-      'Delivered a working planner used by a student project team, praised for making task dependencies easy to understand at a glance.',
-  },
-  {
-    icon: 'prism',
-    title: 'Spectra: Colour Analysis Tool',
-    description:
-      'A browser-based tool that splits an uploaded image into its dominant colour bands and generates an accessible colour palette for designers.',
-    role: 'Front-end lead on a three-person team; built the image-processing pipeline and UI.',
-    outcome:
-      'Adopted internally by two student design teams; reduced palette-selection time from hours to minutes.',
-  },
-  {
-    icon: 'ledger',
-    title: 'Ledgerline',
-    description:
-      'A lightweight personal finance tracker with category budgeting, monthly summaries, and CSV export, built with a component-driven React architecture.',
-    role: 'Full-stack developer — built both the React client and the underlying data layer.',
-    outcome:
-      'Shipped as a portfolio-ready application demonstrating state management, form validation, and responsive design.',
-  },
-]
+// Projects view: public, read-only list loaded from GET /api/projects (MongoDB).
+// Administrators get a shortcut to the dashboard where projects are managed.
+const ICONS = ['orbit', 'prism', 'ledger']
 
 function Projects() {
+  const { isAdmin } = useAuth()
+  const { items: projects, loading, error, reload } = useApiList('/api/projects')
+
   return (
     <section className="projects">
-      <h1>Projects</h1>
-      <div className="project-grid">
-        {PROJECTS.map((project) => (
-          <article className="project-card" key={project.title}>
-            <ProjectIcon name={project.icon} />
-            <h2>{project.title}</h2>
-            <p>{project.description}</p>
-            <p className="project-role">
-              <strong>Role:</strong> {project.role}
-            </p>
-            <p className="project-outcome">
-              <strong>Outcome:</strong> {project.outcome}
-            </p>
-          </article>
-        ))}
+      <div className="page-heading">
+        <h1>Projects</h1>
+        {isAdmin && (
+          <Link to="/admin?tab=projects" className="btn-secondary btn-small">
+            Manage projects
+          </Link>
+        )}
       </div>
+
+      {loading && <Loading label="Loading projects…" />}
+      {!loading && error && (
+        <Alert type="error">
+          Could not load projects: {error}{' '}
+          <button type="button" className="link-button" onClick={reload}>
+            Try again
+          </button>
+        </Alert>
+      )}
+      {!loading && !error && projects.length === 0 && <EmptyState>No projects have been added yet.</EmptyState>}
+
+      {!loading && !error && projects.length > 0 && (
+        <div className="project-grid">
+          {projects.map((project, index) => (
+            <article className="project-card" key={project._id}>
+              <ProjectIcon name={ICONS[index % ICONS.length]} />
+              <h2>{project.title}</h2>
+              <p className="record-meta">Completed {formatDate(project.completion, { year: 'numeric', month: 'long' })}</p>
+              <p>{project.description}</p>
+            </article>
+          ))}
+        </div>
+      )}
     </section>
   )
 }
