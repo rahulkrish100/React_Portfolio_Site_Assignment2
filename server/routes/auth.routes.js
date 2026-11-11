@@ -20,7 +20,9 @@ router.post(
   validate,
   ctrl.signin
 )
+// Sign-out: GET kept for Assignment 2 compatibility, POST used by the React client
 router.get('/signout', requireAuth, ctrl.signout)
+router.post('/signout', requireAuth, ctrl.signout)
 // Simple protected route to demo authorized vs unauthorized requests
 router.get('/me', requireAuth, (req, res) => res.status(200).json(req.user))
 

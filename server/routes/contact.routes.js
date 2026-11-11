@@ -12,12 +12,13 @@ const rules = [
   body('message').trim().notEmpty().withMessage('Message is required'),
 ]
 
-// POST is public so the website's contact form works; everything else needs a token
+// POST is public so the website's contact form works.
+// Any signed-in user may view submissions; only the admin may update/delete them.
 router.post('/', rules, validate, ctrl.create)
 router.get('/', requireAuth, ctrl.list)
 router.delete('/', requireAuth, requireAdmin, requireTestMode, ctrl.removeAll)
 router.get('/:id', requireAuth, ctrl.get)
-router.put('/:id', requireAuth, rules, validate, ctrl.update)
-router.delete('/:id', requireAuth, ctrl.remove)
+router.put('/:id', requireAuth, requireAdmin, rules, validate, ctrl.update)
+router.delete('/:id', requireAuth, requireAdmin, ctrl.remove)
 
 module.exports = router

@@ -10,12 +10,12 @@ const rules = [
   body('description').trim().notEmpty().withMessage('Description is required'),
 ]
 
-// Reads are public; writes require a valid JWT
+// Reads are public; create/update/delete require a valid JWT AND the admin role
 router.get('/', ctrl.list)
-router.post('/', requireAuth, rules, validate, ctrl.create)
+router.post('/', requireAuth, requireAdmin, rules, validate, ctrl.create)
 router.delete('/', requireAuth, requireAdmin, requireTestMode, ctrl.removeAll)
 router.get('/:id', ctrl.get)
-router.put('/:id', requireAuth, rules, validate, ctrl.update)
-router.delete('/:id', requireAuth, ctrl.remove)
+router.put('/:id', requireAuth, requireAdmin, rules, validate, ctrl.update)
+router.delete('/:id', requireAuth, requireAdmin, ctrl.remove)
 
 module.exports = router

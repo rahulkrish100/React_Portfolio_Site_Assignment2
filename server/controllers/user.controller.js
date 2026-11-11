@@ -31,7 +31,7 @@ exports.update = async (req, res, next) => {
     if (name !== undefined) user.name = name
     if (email !== undefined) user.email = email
     if (password) user.passwordHash = await bcrypt.hash(password, 10)
-    if (role !== undefined && req.user.role === 'admin') user.role = role
+    if (role !== undefined) user.role = role // route is admin-only
     await user.save()
     res.status(200).json(user)
   } catch (e) { next(e) }
@@ -39,6 +39,9 @@ exports.update = async (req, res, next) => {
 
 exports.remove = async (req, res, next) => {
   try {
+    if (String(req.user._id) === req.params.id) {
+      return res.status(400).json({ error: 'Administrators cannot delete their own account' })
+    }
     const user = await User.findByIdAndDelete(req.params.id)
     if (!user) return res.status(404).json({ error: 'User not found' })
     res.status(200).json({ message: 'User deleted', id: user._id })

@@ -1,5 +1,11 @@
 // Builds the five CRUD handlers + delete-all for a simple Mongoose model.
+const SYSTEM_FIELDS = ['_id', '__v', 'createdAt', 'updatedAt']
+
 module.exports = function crud(Model, label) {
+  // Only accept fields defined in the schema (blocks _id / timestamp tampering)
+  const allowed = Object.keys(Model.schema.paths).filter((p) => !SYSTEM_FIELDS.includes(p))
+  const pick = (body = {}) => Object.fromEntries(Object.entries(body).filter(([k]) => allowed.includes(k)))
+
   return {
     list: async (req, res, next) => {
       try {
@@ -15,12 +21,12 @@ module.exports = function crud(Model, label) {
     },
     create: async (req, res, next) => {
       try {
-        res.status(201).json(await Model.create(req.body))
+        res.status(201).json(await Model.create(pick(req.body)))
       } catch (e) { next(e) }
     },
     update: async (req, res, next) => {
       try {
-        const doc = await Model.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+        const doc = await Model.findByIdAndUpdate(req.params.id, pick(req.body), { new: true, runValidators: true })
         if (!doc) return res.status(404).json({ error: `${label} not found` })
         res.status(200).json(doc)
       } catch (e) { next(e) }
