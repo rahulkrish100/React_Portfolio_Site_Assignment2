@@ -13,19 +13,19 @@ const PROJECTS = [
     title: 'TaskOrbit: Team Planner',
     completion: '2025-04-30',
     description:
-      'An interactive web app that visualizes project tasks and dependencies as connected nodes, letting teams see how work flows and where bottlenecks form.',
+      'An interactive web app that visualizes project tasks and dependencies as connected nodes, letting teams see how work flows and where bottlenecks form. Role: sole developer (data model and React front end). Outcome: used by a student project team to track task dependencies.',
   },
   {
     title: 'Spectra: Colour Analysis Tool',
     completion: '2025-08-15',
     description:
-      'A browser-based tool that splits an uploaded image into its dominant colour bands and generates an accessible colour palette for designers.',
+      'A browser-based tool that splits an uploaded image into its dominant colour bands and generates an accessible colour palette for designers. Role: front-end lead on a three-person team. Outcome: adopted by two student design teams, cutting palette selection from hours to minutes.',
   },
   {
     title: 'Ledgerline',
     completion: '2025-12-01',
     description:
-      'A lightweight personal finance tracker with category budgeting, monthly summaries, and CSV export, built with a component-driven React architecture.',
+      'A lightweight personal finance tracker with category budgeting, monthly summaries, and CSV export, built with a component-driven React architecture. Role: full-stack developer. Outcome: a portfolio-ready app demonstrating state management and form validation.',
   },
 ]
 
